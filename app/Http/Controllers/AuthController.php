@@ -2,47 +2,70 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\UserConstant;
+use App\Exceptions\BusinessException;
 use App\Http\Controllers\Traits\TokenTrait;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Student;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
     use TokenTrait;
 
-    public function login(Request $request)
+    /**
+     * @param \App\Http\Requests\Auth\LoginRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\BusinessException
+     * @author xiaowei
+     */
+    public function login(LoginRequest $request): JsonResponse
     {
-        // 根据用户名或者邮箱登录
-        $admin = Teacher::query()
-            ->where('username', $request->input('username'))
-            ->firstOrFail();
+        $reqData = $request->validated();
+
+        // 根据用户名登录
+        $query = match ($reqData['login_role']) {
+            UserConstant::USER_LOGIN_ROLE_STUDENT => Student::query(),
+            UserConstant::USER_LOGIN_ROLE_TEACHER => Teacher::query(),
+            default => throw new BusinessException('登录角色错误'),
+        };
+
+        $user = $query->where('username', $request->input('username'))->firstOrFail();
 
         // 检验密码是否正确，错误返回 401 和报错信息
-        if (!Hash::check($request->password, $admin->password)) {
-            return response()->json([
-                'message' => '用户名或密码错误',
-            ], 401);
+        if (!Hash::check($request->password, $user->password)) {
+            return $this->error('用户名或密码错误');
         }
 
-        $token = $this->authenticate();
-        return response()->json($token);
+        return $this->success($this->authenticate());
     }
 
-    public function refresh()
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\BusinessException
+     * @author xiaowei
+     */
+    public function refresh(): JsonResponse
     {
         // 获取 token
-        $token = $this->getRefreshToken();
-        return response()->json($token);
+        return $this->success($this->getRefreshToken());
     }
 
-    public function logout()
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * @author xiaowei
+     */
+    public function logout(): JsonResponse
     {
-        if (Auth::guard('admin')->check()) {
-            Auth::guard('admin')->user()->token()->delete();
+        if (Auth::guard('api')->check()) {
+            Auth::guard('api')->user()->token()->delete();
         }
 
-        return response()->noContent();
+        return $this->success([]);
     }
 }

@@ -10,16 +10,16 @@ Route::group([
     Route::post('login', [\App\Http\Controllers\AuthController::class, 'login']);
     // 刷新 token
     Route::put('refresh', 'AuthController@refresh');
+
     Route::group([
-//        'middleware' => ['auth:api'],
+        'middleware' => ['auth:api'],
     ], function () {
         // 退出
         Route::delete('logout', 'AuthController@logout');
-        // 详情
-        Route::get('customers/current', 'CustomersController@current');
 
         Route::group([
             'prefix' => 'teacher',
+            'middleware' => ['scopes:teacher'],
         ], function () {
             Route::resource('courses', \App\Http\Controllers\CourseController::class);
 
@@ -27,6 +27,15 @@ Route::group([
             Route::get('students', [\App\Http\Controllers\StudentController::class, 'index']);
             Route::post('create-order', [\App\Http\Controllers\OrderController::class, 'store']);
             Route::post('send-order', [\App\Http\Controllers\OrderController::class, 'sendOrder']);
+        });
+
+        Route::group([
+            'prefix' => 'student',
+            'middleware' => ['scopes:student'],
+        ], function () {
+            Route::get('orders', [\App\Http\Controllers\OrderController::class, 'studentOrder']);
+            Route::get('courses', [\App\Http\Controllers\CourseController::class, 'studentCourse']);
+            Route::get('pay-order', [\App\Http\Controllers\OrderController::class, 'payOrder']);
         });
     });
 });

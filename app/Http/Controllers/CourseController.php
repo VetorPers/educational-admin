@@ -84,4 +84,20 @@ class CourseController extends Controller
         return $this->success([]);
     }
 
+    /**
+     * @param IndexCourseRequest $request
+     *
+     * @return JsonResponse
+     * @author xiaowei
+     */
+    public function studentCourse(IndexCourseRequest $request): JsonResponse
+    {
+        $reqData = $request->validated();
+        $reqData['student_id'] = 1;
+
+        $data = $this->repository->index($reqData);
+
+        return $this->success($data);
+    }
+
 }
