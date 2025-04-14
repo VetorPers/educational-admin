@@ -7,6 +7,7 @@ use App\Repositories\PayRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Redis;
 
 /**
  * PayController
@@ -46,6 +47,7 @@ class PayController extends Controller
      */
     public function omiseCallback(Request $request): JsonResponse
     {
+        Redis::set('ttttt', json_encode($request->all()));
         Log::info('omiseCallback', $request->all());
 
         return response()->json('success');

@@ -40,10 +40,11 @@ class OmiseService extends BaseService
      * @param string $title
      * @param array  $param
      *
+     * @return array
      * @throws \App\Exceptions\BusinessException
      * @author xiaowei
      */
-    public function createLink(string $amount, string $title, array $param = [])
+    public function createLink(string $amount, string $title, array $param = []): array
     {
         try {
             $reqData = [
@@ -54,10 +55,8 @@ class OmiseService extends BaseService
                 'description' => $param['description'] ?? $title,
             ];
 
-            $r = \OmiseLink::create($reqData);
-            dd($r);
+            return \OmiseLink::create($reqData)->toArray();
         } catch (\Throwable $e) {
-            throw $e;
             Log::error('创建支付链接失败', [
                 'params' => $reqData,
                 'exception' => ExceptionUtil::normalize($e),
