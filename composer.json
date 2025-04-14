@@ -11,7 +11,8 @@
         "laravel/passport": "^11.8",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "omise/omise-php": "dev-master"
+        "omise/omise-php": "dev-master",
+        "ext-redis": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
