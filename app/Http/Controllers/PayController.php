@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Cache\Cache;
 use App\Http\Requests\Pay\PayOrderRequest;
 use App\Repositories\PayRepository;
 use Illuminate\Http\Request;
@@ -47,7 +48,7 @@ class PayController extends Controller
      */
     public function omiseCallback(Request $request): JsonResponse
     {
-        Redis::set('ttttt', json_encode($request->all()));
+        Cache::getClient()->set('ttttt', json_encode($request->all()));
         Log::info('omiseCallback', $request->all());
 
         return response()->json('success');
