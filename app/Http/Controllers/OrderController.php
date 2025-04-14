@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\InvalidArgumentException;
 use App\Http\Requests\Order\IndexOrderRequest;
 use App\Http\Requests\Order\StoreOrderRequest;
+use App\Http\Requests\Pay\PayOrderRequest;
 use App\Repositories\OrderRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -88,6 +89,22 @@ class OrderController extends Controller
         $reqData['student_id'] = 1;
 
         $data = $this->repository->index($reqData);
+
+        return $this->success($data);
+    }
+
+    /**
+     * @param PayOrderRequest $request
+     *
+     * @return JsonResponse
+     * @author xiaowei
+     */
+    public function orderResult(PayOrderRequest $request): JsonResponse
+    {
+        $reqData = $request->validated();
+        $reqData['student_id'] = 1;
+
+        $data = $this->repository->orderResult($reqData);
 
         return $this->success($data);
     }
