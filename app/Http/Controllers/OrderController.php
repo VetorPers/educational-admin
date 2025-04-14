@@ -92,8 +92,4 @@ class OrderController extends Controller
         return $this->success($data);
     }
 
-    public function payOrder(Request $request)
-    {
-
-    }
 }

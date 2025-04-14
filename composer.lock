@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df6384c048682213dc41a796775c21ae",
+    "content-hash": "78dfeb4fa3fca07147de59f509b6e07d",
     "packages": [
         {
             "name": "brick/math",
@@ -3128,6 +3128,65 @@
                 }
             ],
             "time": "2024-09-09T07:06:30+00:00"
+        },
+        {
+            "name": "omise/omise-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/omise/omise-php.git",
+                "reference": "057f7fa1e75bcbcaf5371debd4790aad023346ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/omise/omise-php/zipball/057f7fa1e75bcbcaf5371debd4790aad023346ab",
+                "reference": "057f7fa1e75bcbcaf5371debd4790aad023346ab",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "brain/monkey": "2.6.2",
+                "friendsofphp/php-cs-fixer": "^2.19.3 || ^3.9.5",
+                "phpstan/phpstan": "1.11.0",
+                "phpunit/phpunit": "^8.5 || ^9.5",
+                "vlucas/phpdotenv": "5.5.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/omise/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Omise and contributors",
+                    "homepage": "https://github.com/omise/omise-php/graphs/contributors"
+                }
+            ],
+            "description": "A PHP library designed specifically to connect with Omise API.",
+            "homepage": "https://www.omise.co",
+            "keywords": [
+                "alipay payment",
+                "credit card payment",
+                "internet banking payment",
+                "konbini payment",
+                "omise",
+                "payment",
+                "payment processing"
+            ],
+            "support": {
+                "email": "support@omise.co",
+                "issues": "https://github.com/omise/omise-php/issues",
+                "source": "https://github.com/omise/omise-php/tree/master"
+            },
+            "time": "2025-03-28T08:13:14+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -9169,7 +9228,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "omise/omise-php": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

@@ -35,7 +35,7 @@ Route::group([
         ], function () {
             Route::get('orders', [\App\Http\Controllers\OrderController::class, 'studentOrder']);
             Route::get('courses', [\App\Http\Controllers\CourseController::class, 'studentCourse']);
-            Route::get('pay-order', [\App\Http\Controllers\OrderController::class, 'payOrder']);
+            Route::get('pay-order', [\App\Http\Controllers\PayController::class, 'payOrder']);
         });
     });
 });
