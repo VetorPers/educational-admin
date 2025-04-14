@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Services\Pay\OmiseService;
 use App\Utils\ExceptionUtil;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 
 /**
  * PayRepository
