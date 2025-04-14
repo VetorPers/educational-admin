@@ -8,6 +8,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * Class Student
@@ -21,7 +22,7 @@ use Laravel\Passport\HasApiTokens;
  * @property Carbon|null $updated_at
  * @package App\Models
  */
-class Student extends Model
+class Student extends Authenticatable
 {
     use HasApiTokens;
 
