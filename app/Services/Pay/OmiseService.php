@@ -51,9 +51,8 @@ class OmiseService extends BaseService
                 'title' => $title,
                 'currency' => $this->currency,
                 'multiple' => $this->multiple,
+                'description' => $param['description'] ?? $title,
             ];
-
-            !empty($param['description']) && $reqData['description'] = $param['description'];
 
             $r = \OmiseLink::create($reqData);
             dd($r);
