@@ -52,7 +52,7 @@ class PayRepository extends BaseRepository
 
             return $ret;
         } catch (\Throwable $e) {
-            Log::channel('pay')->error('获取支付链接失败', [
+            Log::channel('stderr')->error('获取支付链接失败', [
                 'param' => $param,
                 'exception' => ExceptionUtil::normalize($e),
             ]);

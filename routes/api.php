@@ -12,7 +12,7 @@ Route::group([
     Route::put('refresh', 'AuthController@refresh');
 
     Route::group([
-        'middleware' => ['auth:api'],
+//        'middleware' => ['auth:api'],
     ], function () {
         // 退出
         Route::delete('logout', 'AuthController@logout');
@@ -31,7 +31,7 @@ Route::group([
 
         Route::group([
             'prefix' => 'student',
-            'middleware' => ['scopes:student'],
+//            'middleware' => ['scopes:student'],
         ], function () {
             Route::get('orders', [\App\Http\Controllers\OrderController::class, 'studentOrder']);
             Route::get('courses', [\App\Http\Controllers\CourseController::class, 'studentCourse']);

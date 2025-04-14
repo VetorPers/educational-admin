@@ -100,9 +100,18 @@ class Handler extends ExceptionHandler
 
         if ($exception instanceof NotFoundHttpException) {
             return response()->json([
-                'code' => 0,
+                'code' => 404,
                 'sub_code' => $exception->getCode(),
                 'msg' => '接口不存在!',
+                'data' => null,
+            ], 404, [], JSON_UNESCAPED_UNICODE);
+        }
+
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json([
+                'code' => 404,
+                'sub_code' => $exception->getCode(),
+                'msg' => '数据不存在!',
                 'data' => null,
             ], 404, [], JSON_UNESCAPED_UNICODE);
         }

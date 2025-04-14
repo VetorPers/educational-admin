@@ -42,18 +42,10 @@ class AuthController extends Controller
             return $this->error('用户名或密码错误');
         }
 
-        return $this->success($this->authenticate());
-    }
+        $ret = $this->authenticate();
+        $ret['login_role'] = $reqData['login_role'];
 
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \App\Exceptions\BusinessException
-     * @author xiaowei
-     */
-    public function refresh(): JsonResponse
-    {
-        // 获取 token
-        return $this->success($this->getRefreshToken());
+        return $this->success($ret);
     }
 
     /**
