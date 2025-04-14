@@ -150,6 +150,15 @@ return [
             'days' => 14,
             'permission' => 0777,
         ],
+
+        'pay' => [
+            'driver' => 'daily',
+            'tap' => [App\Logging\CustomizeFormatter::class],
+            'path' => storage_path('logs/laravel-pay.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 14,
+            'permission' => 0777,
+        ],
     ],
 
 ];

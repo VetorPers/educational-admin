@@ -48,8 +48,7 @@ class PayController extends Controller
      */
     public function omiseCallback(Request $request): JsonResponse
     {
-        Cache::getClient()->set('ttttt', json_encode($request->all()));
-        Log::info('omiseCallback', $request->all());
+        Log::channel('pay')->info('omiseCallback', $request->all());
 
         return response()->json('success');
     }

@@ -57,7 +57,7 @@ class OmiseService extends BaseService
 
             return \OmiseLink::create($reqData)->toArray();
         } catch (\Throwable $e) {
-            Log::error('创建支付链接失败', [
+            Log::channel('pay')->error('创建支付链接失败', [
                 'params' => $reqData,
                 'exception' => ExceptionUtil::normalize($e),
             ]);

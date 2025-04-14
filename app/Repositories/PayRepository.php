@@ -44,7 +44,7 @@ class PayRepository extends BaseRepository
 
             return (new OmiseService)->createLink($order->amount, '课程订单');
         } catch (\Throwable $e) {
-            Log::error('获取支付链接失败', [
+            Log::channel('pay')->error('获取支付链接失败', [
                 'param' => $param,
                 'exception' => ExceptionUtil::normalize($e),
             ]);
