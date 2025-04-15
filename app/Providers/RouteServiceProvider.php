@@ -58,6 +58,8 @@ class RouteServiceProvider extends ServiceProvider
         $loginRole = $request->input('login_role', UserConstant::USER_LOGIN_ROLE_STUDENT);
         if ($loginRole == UserConstant::USER_LOGIN_ROLE_TEACHER) {
             config(['auth.guards.api.provider' => 'teachers']);
+
+            return;
         }
 
         config(['auth.guards.api.provider' => 'students']);

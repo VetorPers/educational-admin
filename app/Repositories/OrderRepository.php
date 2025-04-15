@@ -121,9 +121,14 @@ class OrderRepository extends BaseRepository
      */
     public function sendOrder(int $id): bool
     {
+        /** @var Order $order */
         $order = Order::query()->find($id);
         if (!$order) {
             throw new BusinessException('订单不存在');
+        }
+
+        if ($order->status != OrderConstant::STATUS_0) {
+            throw new BusinessException('订单已发送');
         }
 
         $order->update([

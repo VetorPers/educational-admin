@@ -8,14 +8,12 @@ Route::group([
 ], function () {
     // 登录
     Route::post('login', [\App\Http\Controllers\AuthController::class, 'login']);
-    // 刷新 token
-    Route::put('refresh', 'AuthController@refresh');
 
     Route::group([
         'middleware' => ['auth:api'],
     ], function () {
         // 退出
-        Route::delete('logout', 'AuthController@logout');
+        Route::delete('logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 
         Route::group([
             'prefix' => 'teacher',
