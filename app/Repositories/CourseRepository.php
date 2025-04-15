@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Constants\OrderConstant;
 use App\Constants\UserConstant;
 use App\Exceptions\BusinessException;
 use App\Models\Course;
@@ -25,10 +26,10 @@ class CourseRepository extends BaseRepository
 
         // 查询条件
         !empty($param['course.name']) && $query->where('course.name', 'like', '%' . $param['name'] . '%');
-        // 获取学生课程
+        // 获取学生课程(需要支付成功)
         if (isset($param['login_role']) && $param['login_role'] == UserConstant::USER_LOGIN_ROLE_STUDENT) {
-            $query->whereHas('students', function ($query) {
-                $query->where('students.id', $this->userId());
+            $query->whereHas('orders', function ($query) {
+                $query->where('orders.student_id', $this->userId())->where('order.pay_status', OrderConstant::PAY_STATUS_1);
             });
         }
 

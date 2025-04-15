@@ -51,4 +51,9 @@ class Course extends Model
     {
         return $this->belongsToMany(Student::class, 'course_student', 'course_id', 'student_id');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'course_id', 'id');
+    }
 }
