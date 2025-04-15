@@ -8,6 +8,7 @@ use App\Exceptions\BusinessException;
 use App\Models\Order;
 use App\Services\Pay\OmiseService;
 use App\Utils\ExceptionUtil;
+use App\Utils\PriceUtil;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
@@ -55,7 +56,7 @@ class PayRepository extends BaseRepository
                 throw new BusinessException('订单已支付');
             }
 
-            $ret = (new OmiseService)->createLink($order->amount, '课程订单');
+            $ret = (new OmiseService)->createLink(PriceUtil::mul($order->amount, 100), '课程订单');
             if (empty($ret['id'])) {
                 throw new BusinessException('获取支付链接失败');
             }

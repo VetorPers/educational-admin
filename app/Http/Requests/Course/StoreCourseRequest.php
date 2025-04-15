@@ -16,7 +16,7 @@ class StoreCourseRequest extends BaseRequest
         return [
             'name' => 'required|string|max:40',
             'period' => 'required|string|max:10',
-            'charge' => 'required|numeric|min:2000',
+            'charge' => 'required|numeric|min:20',
             'description' => 'string|max:255',
         ];
     }

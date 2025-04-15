@@ -29,7 +29,7 @@ class CourseRepository extends BaseRepository
         // 获取学生课程(需要支付成功)
         if (isset($param['login_role']) && $param['login_role'] == UserConstant::USER_LOGIN_ROLE_STUDENT) {
             $query->whereHas('orders', function ($query) {
-                $query->where('orders.student_id', $this->userId())->where('order.pay_status', OrderConstant::PAY_STATUS_1);
+                $query->where('orders.student_id', $this->userId())->where('orders.pay_status', OrderConstant::PAY_STATUS_1);
             });
         }
 
