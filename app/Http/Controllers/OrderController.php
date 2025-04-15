@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\UserConstant;
 use App\Exceptions\InvalidArgumentException;
 use App\Http\Requests\Order\IndexOrderRequest;
 use App\Http\Requests\Order\StoreOrderRequest;
@@ -86,7 +87,7 @@ class OrderController extends Controller
     public function studentOrder(IndexOrderRequest $request): JsonResponse
     {
         $reqData = $request->validated();
-        $reqData['student_id'] = 1;
+        $reqData['login_role'] = UserConstant::USER_LOGIN_ROLE_STUDENT;
 
         $data = $this->repository->index($reqData);
 
@@ -102,7 +103,6 @@ class OrderController extends Controller
     public function orderResult(PayOrderRequest $request): JsonResponse
     {
         $reqData = $request->validated();
-        $reqData['student_id'] = 1;
 
         $data = $this->repository->orderResult($reqData);
 

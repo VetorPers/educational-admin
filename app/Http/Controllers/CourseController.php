@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\UserConstant;
 use App\Http\Requests\Course\IndexCourseRequest;
 use App\Http\Requests\Course\StoreCourseRequest;
 use App\Http\Requests\Course\UpdateCourseRequest;
@@ -93,7 +94,7 @@ class CourseController extends Controller
     public function studentCourse(IndexCourseRequest $request): JsonResponse
     {
         $reqData = $request->validated();
-        $reqData['student_id'] = 1;
+        $reqData['login_role'] = UserConstant::USER_LOGIN_ROLE_STUDENT;
 
         $data = $this->repository->index($reqData);
 

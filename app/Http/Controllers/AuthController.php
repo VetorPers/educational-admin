@@ -42,10 +42,12 @@ class AuthController extends Controller
             return $this->error('用户名或密码错误');
         }
 
-        $ret = $this->authenticate();
-        $ret['login_role'] = $reqData['login_role'];
-
-        return $this->success($ret);
+        return $this->success(array_merge($this->authenticate(), [
+            'login_role' => $reqData['login_role'],
+            'id' => $user->id,
+            'name' => $user->name,
+            'avatar' => $user->avatar,
+        ]));
     }
 
     /**

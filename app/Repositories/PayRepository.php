@@ -28,7 +28,9 @@ class PayRepository extends BaseRepository
     public function payOrder(array $param): array
     {
         /** @var Order $order */
-        $order = Order::query()->where('order_no', $param['order_no'])->first();
+        $order = Order::query()
+            ->where('order_no', $param['order_no'])
+            ->first();
         if (!$order) {
             throw new BusinessException('订单不存在');
         }
@@ -38,6 +40,10 @@ class PayRepository extends BaseRepository
         }
 
         try {
+            if ($order->student_id != $this->userId()) {
+                throw new BusinessException('权限错误');
+            }
+
             if (OrderConstant::PAY_STATUS_1 == $order->pay_status) {
                 throw new BusinessException('订单已支付');
             }

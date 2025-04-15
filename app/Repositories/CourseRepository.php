@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Constants\UserConstant;
 use App\Models\Course;
 
 /**
@@ -23,6 +24,12 @@ class CourseRepository extends BaseRepository
 
         // 查询条件
         !empty($param['name']) && $query->where('name', 'like', '%' . $param['name'] . '%');
+        // 获取学生课程
+        if (isset($param['login_role']) && $param['login_role'] == UserConstant::USER_LOGIN_ROLE_STUDENT) {
+            $query->whereHas('students', function ($query) {
+                $query->where('id', $this->userId());
+            });
+        }
 
         // 排序
         $query = $query->orderBy('id', 'desc');
@@ -48,7 +55,7 @@ class CourseRepository extends BaseRepository
      */
     public function store(array $param): array
     {
-        $param['teacher_id'] = 1;
+        $param['teacher_id'] = $this->userId();
 
         $course = Course::query()->create($param);
 
@@ -64,7 +71,7 @@ class CourseRepository extends BaseRepository
      */
     public function update(int $id, array $param): array
     {
-        $course = Course::query()->findOrFail($id);
+        $course = Course::query()->where('teacher_id', $this->userId())->findOrFail($id);
 
         $course->fill($param)->save();
 
@@ -79,7 +86,7 @@ class CourseRepository extends BaseRepository
      */
     public function destroy(int $id): bool
     {
-        $course = Course::query()->findOrFail($id);
+        $course = Course::query()->where('teacher_id', $this->userId())->findOrFail($id);
 
         $course->delete();
 

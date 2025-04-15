@@ -17,6 +17,8 @@ use Carbon\Carbon;
  * @property int         $student_id
  * @property int         $teacher_id
  * @property int         $course_id
+ * @property int         $sender_id
+ * @property Carbon|null $send_time
  * @property float       $amount
  * @property int         $status
  * @property int         $pay_status
@@ -34,11 +36,13 @@ class Order extends Model
     protected $casts = [
         'student_id' => 'int',
         'teacher_id' => 'int',
+        'sender_id' => 'int',
         'course_id' => 'int',
         'amount' => 'float',
         'status' => 'int',
         'pay_status' => 'int',
         'pay_time' => 'datetime',
+        'send_time' => 'datetime',
     ];
 
     protected $fillable = [
@@ -46,6 +50,8 @@ class Order extends Model
         'student_id',
         'teacher_id',
         'course_id',
+        'sender_id',
+        'send_time',
         'amount',
         'status',
         'pay_status',

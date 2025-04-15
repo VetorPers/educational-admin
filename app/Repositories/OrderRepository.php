@@ -6,6 +6,7 @@ namespace App\Repositories;
 use App\Cache\Pay\OrderCache;
 use App\Cache\UserLock;
 use App\Constants\OrderConstant;
+use App\Constants\UserConstant;
 use App\Exceptions\BusinessException;
 use App\Models\Course;
 use App\Models\Order;
@@ -31,7 +32,9 @@ class OrderRepository extends BaseRepository
 
         // 查询条件
         !empty($param['order_no']) && $query->where('order_no', $param['order_no']);
-        !empty($param['student_id']) && $query->where('student_id', $param['student_id'])->where('status', OrderConstant::STATUS_1);
+        if (isset($param['login_role']) && $param['login_role'] == UserConstant::USER_LOGIN_ROLE_STUDENT) {
+            $query->where('student_id', $this->userId())->where('status', OrderConstant::STATUS_1);
+        }
 
         // 排序
         $query = $query->orderBy('id', 'desc');
@@ -85,7 +88,7 @@ class OrderRepository extends BaseRepository
                     'order_no' => OrderCache::generateOrderNo('O'),
                     'student_id' => $studentId,
                     'course_id' => $courseId,
-                    'teacher_id' => 1,
+                    'teacher_id' => $course->teacher_id,
                     'amount' => $course->charge,
                 ];
             }
@@ -121,6 +124,8 @@ class OrderRepository extends BaseRepository
 
         $order->update([
             'status' => OrderConstant::STATUS_1,
+            'sender_id' => $this->userId(),
+            'send_time' => now(),
         ]);
 
         return true;
@@ -136,7 +141,11 @@ class OrderRepository extends BaseRepository
     public function orderResult(array $param): array
     {
         /** @var Order $order */
-        $order = Order::query()->select(['order_no', 'pay_status'])->where('order_no', $param['order_no'])->first();
+        $order = Order::query()
+            ->select(['order_no', 'pay_status'])
+            ->where('order_no', $param['order_no'])
+            ->where('student_id', $this->userId())
+            ->first();
         if (!$order) {
             throw new BusinessException('订单不存在');
         }

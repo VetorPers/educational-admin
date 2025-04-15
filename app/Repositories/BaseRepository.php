@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 /**
@@ -40,5 +41,21 @@ class BaseRepository
         }
 
         return sprintf('%s/storage/%s', rtrim(env('TEACH_ADMIN_URL', 'http://127.0.0.1:8093'), '/'), ltrim($path, '/'));
+    }
+
+    /**
+     * @param string $guard
+     *
+     * @return int
+     * @author xiaowei
+     */
+    public function userId(string $guard = 'api'): int
+    {
+        $user = Auth::guard($guard)->user();
+        if (!$user) {
+            return 0;
+        }
+
+        return intval($user->id);
     }
 }
