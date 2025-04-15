@@ -70,6 +70,22 @@ class PayRepository extends BaseRepository
     }
 
     /**
+     * @param string $event
+     *
+     * @return true
+     * @throws \App\Exceptions\BusinessException
+     * @author xiaowei
+     */
+    protected function filterEvent(string $event): true
+    {
+        if (!in_array($event, ['charge.successful', 'charge.failed', 'charge.expired'])) {
+            throw new BusinessException('不支持的事件类型');
+        }
+
+        return true;
+    }
+
+    /**
      * @param array $param
      *
      * @return bool
@@ -78,8 +94,14 @@ class PayRepository extends BaseRepository
      */
     public function omiseCallback(array $param): bool
     {
+        if (empty($param['data']['link']) || empty($param['key'])) {
+            throw new BusinessException('参数错误');
+        }
+
+        $this->filterEvent($param['key']);
+
         /** @var Order $order */
-        $order = Order::query()->where('pay_id', $param['id'])->first();
+        $order = Order::query()->where('pay_id', $param['data']['link'])->first();
         if (!$order) {
             throw new BusinessException('订单不存在');
         }
