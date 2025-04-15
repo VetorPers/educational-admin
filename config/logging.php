@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'daily'),
+    'default' => env('LOG_CHANNEL', 'stack'),
 
     /*
     |--------------------------------------------------------------------------
@@ -59,7 +59,7 @@ return [
         ],
 
         'single' => [
-            'driver' => 'single',
+            'driver' => 'errorlog',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'replace_placeholders' => true,
@@ -143,7 +143,7 @@ return [
         ],
 
         'access' => [
-            'driver' => 'daily',
+            'driver' => 'errorlog',
             'tap' => [App\Logging\CustomizeFormatter::class],
             'path' => storage_path('logs/laravel-access.log'),
             'level' => env('LOG_LEVEL', 'debug'),
@@ -152,7 +152,7 @@ return [
         ],
 
         'pay' => [
-            'driver' => 'daily',
+            'driver' => 'errorlog',
             'tap' => [App\Logging\CustomizeFormatter::class],
             'path' => storage_path('logs/laravel-pay.log'),
             'level' => env('LOG_LEVEL', 'debug'),
