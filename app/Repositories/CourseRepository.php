@@ -24,16 +24,16 @@ class CourseRepository extends BaseRepository
         $query = Course::query()->with(['teacher:id,name,avatar', 'students:id,name,avatar']);
 
         // 查询条件
-        !empty($param['name']) && $query->where('name', 'like', '%' . $param['name'] . '%');
+        !empty($param['course.name']) && $query->where('course.name', 'like', '%' . $param['name'] . '%');
         // 获取学生课程
         if (isset($param['login_role']) && $param['login_role'] == UserConstant::USER_LOGIN_ROLE_STUDENT) {
             $query->whereHas('students', function ($query) {
-                $query->where('id', $this->userId());
+                $query->where('students.id', $this->userId());
             });
         }
 
         // 排序
-        $query = $query->orderBy('id', 'desc');
+        $query = $query->orderBy('courses.id', 'desc');
 
         $data = $query->paginate($param['per_page'] ?? 10, page: $param['page'] ?? 1)->toArray();
         foreach ($data['data'] as &$datum) {
