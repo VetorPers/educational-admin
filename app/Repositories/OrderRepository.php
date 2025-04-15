@@ -80,7 +80,7 @@ class OrderRepository extends BaseRepository
                 throw new BusinessException('权限错误');
             }
 
-            $hasStudentIds = $course->students()->whereIn('id', $studentIds)->get()->pluck('id')->toArray();
+            $hasStudentIds = $course->students()->whereIn('students.id', $studentIds)->get()->pluck('id')->toArray();
             // 排查已经存在的学生id
             $studentIds = array_diff($studentIds, $hasStudentIds);
             // 添加到关联表
