@@ -72,7 +72,7 @@ class PayRepository extends BaseRepository
     /**
      * @param array $param
      *
-     * @return true
+     * @return bool
      * @throws \App\Exceptions\BusinessException
      * @author xiaowei
      */
@@ -89,17 +89,38 @@ class PayRepository extends BaseRepository
         }
 
         try {
+            if (OrderConstant::PAY_STATUS_1 == $order->pay_status) {
+                throw new BusinessException('订单已支付');
+            }
+
+            $payStatus = 0;
             $ret = (new OmiseService)->retrieve($order->pay_id);
-            Log::channel('stderr')->error('omiseCallback', [
-                'ret' => $ret,
-            ]);
+            if (!empty($ret['charges']['data'])) {
+                foreach ($ret['charges']['data'] as $item) {
+                    if (!isset($item['link']) || $item['link'] != $order->pay_id) {
+                        continue;
+                    }
 
+                    $payStatus = isset($item['status']) && $item['status'] == 'successful' ? 1 : 0;
+                    break;
+                }
+            }
+
+            $order->fill([
+                'pay_status' => $payStatus ? OrderConstant::PAY_STATUS_1 : OrderConstant::PAY_STATUS_2,
+                'pay_time' => $payStatus ? now() : null,
+                'pay_info' => json_encode($param, JSON_UNESCAPED_UNICODE),
+            ])->save();
+
+            return true;
         } catch (\Throwable $e) {
-
+            Log::channel('stderr')->error('支付回调失败', [
+                'param' => $param,
+                'exception' => ExceptionUtil::normalize($e),
+            ]);
+            return false;
         } finally {
             UserLock::orderUnLock($order->order_no);
         }
-
-        return true;
     }
 }
