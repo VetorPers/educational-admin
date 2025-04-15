@@ -66,18 +66,18 @@ class OmiseService extends BaseService
     }
 
     /**
-     * @param string $query
+     * @param string $id
      *
      * @return array
      * @throws \App\Exceptions\BusinessException
      * @author xiaowei
      */
-    public function orders(string $query): array
+    public function retrieve(string $id): array
     {
         $params = get_defined_vars();
 
         try {
-            return \OmiseLink::search($query)->toArray();
+            return \OmiseLink::retrieve($id)->toArray();
         } catch (\Throwable $e) {
             Log::channel('pay')->error('创建支付链接失败', [
                 'params' => $params,

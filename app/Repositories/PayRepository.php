@@ -89,7 +89,7 @@ class PayRepository extends BaseRepository
         }
 
         try {
-            $ret = (new OmiseService)->orders($order->pay_id);
+            $ret = (new OmiseService)->retrieve($order->pay_id);
             Log::channel('stderr')->error('omiseCallback', [
                 'ret' => $ret,
             ]);
