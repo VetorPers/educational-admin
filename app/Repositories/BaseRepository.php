@@ -29,13 +29,17 @@ class BaseRepository
     /**
      * 获取图片完整路径
      *
-     * @param string $path
+     * @param string|null $path
      *
      * @return string
      * @author xiaowei
      */
-    public function imageFullUrl(string $path): string
+    public function imageFullUrl(string $path = null): string
     {
+        if (empty($path)) {
+            return '';
+        }
+
         if (Str::startsWith($path, 'http')) {
             return $path;
         }
