@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Utils\EnvUtil;
 use App\Utils\ExceptionUtil;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
@@ -114,6 +115,15 @@ class Handler extends ExceptionHandler
                 'msg' => '数据不存在!',
                 'data' => null,
             ], 404, [], JSON_UNESCAPED_UNICODE);
+        }
+
+        if ($exception instanceof AuthenticationException) {
+            return response()->json([
+                'code' => 80001,
+                'sub_code' => $exception->getCode(),
+                'msg' => '登陆已过期, 请重新登陆!',
+                'data' => null,
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
 
         return response()->json([
