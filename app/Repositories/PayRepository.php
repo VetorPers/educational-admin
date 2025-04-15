@@ -79,9 +79,25 @@ class PayRepository extends BaseRepository
     public function omiseCallback(array $param): bool
     {
         /** @var Order $order */
-        $order = Order::query()->where('order_no', $param['order_no'])->first();
+        $order = Order::query()->where('pay_id', $param['id'])->first();
         if (!$order) {
             throw new BusinessException('订单不存在');
+        }
+
+        if (!UserLock::orderLock($order->order_no)) {
+            throw new BusinessException("操作频繁，请稍后再试");
+        }
+
+        try {
+            $ret = (new OmiseService)->orders($order->pay_id);
+            Log::channel('stderr')->error('omiseCallback', [
+                'ret' => $ret,
+            ]);
+
+        } catch (\Throwable $e) {
+
+        } finally {
+            UserLock::orderUnLock($order->order_no);
         }
 
         return true;

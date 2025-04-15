@@ -54,13 +54,13 @@ class RequestLoggingMiddleware
         }
 
         // 在请求处理之前记录请求信息
-        Log::channel('access')->info('request start ' . $path);
+        Log::channel('stderr')->error('request start ' . $path);
 
         $response = $next($request);
 
         // 在响应发送之后记录响应信息
         $code = $response->getStatusCode();
-        Log::channel('access')->info('request end ' . $path, [
+        Log::channel('stderr')->error('request end ' . $path, [
             'status' => $code,
             'content' => Str::startsWith($code, [2]) ? $response->getContent() : $response->statusText(),
         ]);

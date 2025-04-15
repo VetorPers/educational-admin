@@ -48,7 +48,7 @@ class PayController extends Controller
      */
     public function omiseCallback(Request $request): JsonResponse
     {
-        Log::channel('stderr')->error('omiseCallback', $request->all());
+        $this->repository->omiseCallback($request->all());
 
         return response()->json('success');
     }

@@ -39,9 +39,7 @@ class TestCommand extends Command
     {
         define('OMISE_PUBLIC_KEY', 'pkey_test_63bwxqmlsds8p45awi2');
         define('OMISE_SECRET_KEY', 'skey_test_63bwxqn57v2ad58dly8');
-        $r = \OmiseLink::create([
-
-        ]);
+        $r = \OmiseLink::search('link_test_63e6gpw9aqnegxsaija');
         dd($r);
         return 0;
     }

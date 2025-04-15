@@ -66,6 +66,28 @@ class OmiseService extends BaseService
     }
 
     /**
+     * @param string $query
+     *
+     * @return array
+     * @throws \App\Exceptions\BusinessException
+     * @author xiaowei
+     */
+    public function orders(string $query): array
+    {
+        $params = get_defined_vars();
+
+        try {
+            return \OmiseLink::search($query)->toArray();
+        } catch (\Throwable $e) {
+            Log::channel('pay')->error('创建支付链接失败', [
+                'params' => $params,
+                'exception' => ExceptionUtil::normalize($e),
+            ]);
+            throw new BusinessException('获取订单状态失败');
+        }
+    }
+
+    /**
      * @return string
      * @author xiaowei
      */
