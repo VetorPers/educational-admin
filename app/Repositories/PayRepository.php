@@ -19,6 +19,13 @@ use Illuminate\Support\Facades\Redis;
 class PayRepository extends BaseRepository
 {
     /**
+     * @var array|string[]
+     */
+    protected array $events = [
+        'charge.create',
+    ];
+
+    /**
      * @param array $param
      *
      * @return array
@@ -78,7 +85,7 @@ class PayRepository extends BaseRepository
      */
     protected function filterEvent(string $event): true
     {
-        if (!in_array($event, ['charge.successful', 'charge.failed', 'charge.expired'])) {
+        if (!in_array($event, $this->events)) {
             throw new BusinessException('不支持的事件类型');
         }
 
