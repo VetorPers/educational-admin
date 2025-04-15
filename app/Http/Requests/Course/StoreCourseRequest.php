@@ -31,6 +31,7 @@ class StoreCourseRequest extends BaseRequest
             'name.*' => '课程名必须',
             'period.*' => '年月必须',
             'charge.*' => '课程费用必须',
+            'charge.min' => '课程费用不能小于2000thb',
             'description.*' => '课程描述必须是一个字符串',
         ];
     }

@@ -17,6 +17,7 @@ class IndexStudentRequest extends BaseRequest
             'page' => 'required|integer|min:1|max:100',
             'per_page' => 'required|integer|min:1|max:100',
             'name' => 'string|max:40',
+            'course_id' => 'integer',
         ];
     }
 
@@ -32,6 +33,7 @@ class IndexStudentRequest extends BaseRequest
             'per_page.required' => '每页数量必须',
             'per_page.*' => '每页数量必须是一个1~100的数字',
             'name.*' => '课程名必须是一个字符串',
+            'course_id.*' => '课程id必须是一个数字',
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Constants\UserConstant;
+use App\Exceptions\BusinessException;
 use App\Models\Course;
 
 /**
@@ -82,11 +83,15 @@ class CourseRepository extends BaseRepository
      * @param int $id
      *
      * @return true
+     * @throws \App\Exceptions\BusinessException
      * @author xiaowei
      */
     public function destroy(int $id): bool
     {
         $course = Course::query()->where('teacher_id', $this->userId())->findOrFail($id);
+        if ($course->students()->exists()) {
+            throw new BusinessException('课程下有学生，无法删除');
+        }
 
         $course->delete();
 
