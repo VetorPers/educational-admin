@@ -42,4 +42,9 @@ class Student extends Authenticatable
     {
         return self::where('username', $username)->first();
     }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'course_student', 'student_id', 'course_id');
+    }
 }
