@@ -8,6 +8,7 @@ use App\Http\Controllers\Traits\TokenTrait;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Repositories\BaseRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -46,7 +47,7 @@ class AuthController extends Controller
             'login_role' => $reqData['login_role'],
             'id' => $user->id,
             'name' => $user->name,
-            'avatar' => $user->avatar,
+            'avatar' => (new BaseRepository)->imageFullUrl($user->avatar),
         ]));
     }
 
