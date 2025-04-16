@@ -130,6 +130,7 @@ return [
 
         'default' => [
             'url' => env('REDIS_URL'),
+            'scheme' => 'unix',
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'username' => env('REDIS_USERNAME'),
             'password' => env('REDIS_PASSWORD'),
@@ -137,6 +138,7 @@ return [
             'database' => env('REDIS_DB', '0'),
             'read_write_timeout' => -1,
             'timeout' => -1,
+            'persistent' => true,
         ],
 
         'cache' => [
