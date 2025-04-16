@@ -3,6 +3,7 @@
 namespace App\Cache;
 
 use App\Constants\CacheConstant;
+use Illuminate\Support\Facades\Redis;
 use Predis\Client;
 
 /**
@@ -41,7 +42,8 @@ LUA;
     public static function getClient()
     {
         if (null === self::$instance) {
-            self::$instance = new Client(config('database.redis.' . self::$connect));
+//            self::$instance = new Client(config('database.redis.' . self::$connect));
+            self::$instance = Redis::connection(self::$connect)->client();
         }
 
         return self::$instance;
