@@ -12,7 +12,8 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "omise/omise-php": "dev-master",
-        "predis/predis": "^2.3"
+        "predis/predis": "^2.3",
+        "ext-redis": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
