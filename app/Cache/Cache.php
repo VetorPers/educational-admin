@@ -41,7 +41,9 @@ LUA;
     public static function getClient()
     {
         if (null === self::$instance) {
-            self::$instance = new Client(config('database.redis.' . self::$connect));
+            self::$instance = new Client(config('database.redis.' . self::$connect), [
+                'read_write_timeout' => 0,
+            ]);
         }
 
         return self::$instance;
