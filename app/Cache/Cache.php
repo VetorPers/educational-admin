@@ -42,8 +42,7 @@ LUA;
     public static function getClient()
     {
         if (null === self::$instance) {
-//            self::$instance = new Client(config('database.redis.' . self::$connect));
-            self::$instance = Redis::connection(self::$connect)->client();
+            self::$instance = new Client(env('REDIS_URL'));
         }
 
         return self::$instance;
