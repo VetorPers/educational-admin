@@ -29,8 +29,8 @@ class OmiseService extends BaseService
      */
     public function __construct()
     {
-        define('OMISE_PUBLIC_KEY', env('OMISE_PUBLIC_KEY', 'pkey_test_63bwxqmlsds8p45awi2'));
-        define('OMISE_SECRET_KEY', env('OMISE_SECRET_KEY', 'skey_test_63bwxqn57v2ad58dly8'));
+        !defined('OMISE_PUBLIC_KEY') && define('OMISE_PUBLIC_KEY', env('OMISE_PUBLIC_KEY', 'pkey_test_63bwxqmlsds8p45awi2'));
+        !defined('OMISE_SECRET_KEY') && define('OMISE_SECRET_KEY', env('OMISE_SECRET_KEY', 'skey_test_63bwxqn57v2ad58dly8'));
     }
 
     /**

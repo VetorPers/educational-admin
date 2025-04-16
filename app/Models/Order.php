@@ -8,6 +8,8 @@ namespace App\Models;
 
 use App\Constants\UserConstant;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Database\Factories\OrderFactory;
 
 /**
  * Class Order
@@ -59,6 +61,14 @@ class Order extends Model
         'pay_info',
         'pay_id',
     ];
+
+    /**
+     * 为模型创建一个新的工厂实例。
+     */
+    protected static function newFactory(): Factory
+    {
+        return OrderFactory::new();
+    }
 
     public function student()
     {
