@@ -31,6 +31,9 @@ class CourseRepository extends BaseRepository
             $query->whereHas('orders', function ($query) {
                 $query->where('orders.student_id', $this->userId())->where('orders.pay_status', OrderConstant::PAY_STATUS_1);
             });
+        } else {
+            // 获取教师课程
+            $query->where('teacher_id', $this->userId());
         }
 
         // 排序
